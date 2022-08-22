@@ -68,6 +68,7 @@ function startListening(){
     document.getElementById('minus').addEventListener('click', subtractOne)
     document.getElementById('plus').addEventListener('click', addOne)
     document.getElementById('heart').addEventListener('click', updateClickCount)
+    document.getElementById('comment-form').addEventListener('submit', processCommentInput)
 }
 
 function stopListening(){
@@ -75,6 +76,7 @@ function stopListening(){
     document.getElementById('minus').removeEventListener('click', subtractOne)
     document.getElementById('plus').removeEventListener('click', addOne)
     document.getElementById('heart').removeEventListener('click', updateClickCount)
+    document.getElementById('comment-form').removeEventListener('submit', processCommentInput)
 }
 
 
@@ -134,3 +136,33 @@ pauseButton.addEventListener('click', event =>{
         changeButtonStyle()
     }
 })
+
+
+// process stuff to do with the submission of the comments
+
+const commentForm = document.getElementById('comment-form')
+
+function createAListThatWillHoldComments(){
+    let commentsHeader = document.querySelector('#list + h3')
+    let commentsHeaderParent = document.querySelector('body div');
+    let commentsContainer = document.createElement('div')
+    commentsContainer.id = 'user-inputted-comments'
+
+    commentsHeader.parentNode.insertBefore(commentsContainer, commentsHeader.nextSibling)
+}
+
+createAListThatWillHoldComments();
+
+function processCommentInput(event){
+    const newComment = document.createElement('p')
+    newComment.textContent = commentForm.querySelector('#comment-input').value
+
+    const commentsContainer = document.getElementById('user-inputted-comments')
+    commentsContainer.appendChild(newComment)
+
+    event.target.reset();
+}
+
+
+commentForm.addEventListener('submit', event => event.preventDefault())
+commentForm.addEventListener('submit', processCommentInput)
